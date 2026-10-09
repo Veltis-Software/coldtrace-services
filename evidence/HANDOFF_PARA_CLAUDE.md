@@ -59,6 +59,11 @@ al pack y `sprint1/coldtrace-infrastructure/CLOUD_PREPARATION.md` para nombres
 propuestos, cuotas gratuitas y límites. No se creó ningún recurso facturable.
 
 Los seis directorios preparados para repositorios independientes están en
-`C:/Users/david/IdeaProjects/coldtrace-sprint1-repositories`. Su publicación
-requiere que existan los repositorios y acceso de escritura. La implementación
-consolidada está en `C:/Users/david/IdeaProjects/coldtrace-services`.
+`C:/Users/david/IdeaProjects/coldtrace-sprint1-repositories`. Los seis componentes
+ya están publicados en Veltis-Software desde David-std2, en la rama
+`codex/tp1-import`, con PR #1 de cada repositorio. El repositorio consolidado
+también tiene PR #1, rama `codex/tp1-architecture-implementation`. Los PRs están
+en borrador y no se fusionaron. El tag `v0.1.0-sprint1` de coldtrace-shared
+conserva la revisión exacta fijada por los consumidores. Para ejecutar antes
+de fusionar, clonar expresamente las ramas indicadas. Consultar
+`repository-publication.json` y las ejecuciones de GitHub para el estado de CI.
