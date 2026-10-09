@@ -2,6 +2,8 @@
 from pathlib import Path
 import json
 import shutil
+import subprocess
+from datetime import datetime, timezone
 import xml.etree.ElementTree as ET
 import urllib.request
 
@@ -110,6 +112,19 @@ def capture_evidence():
         (evidence / f"openapi-{module}.json").write_text(json.dumps(document, indent=2), encoding="utf-8")
     log = (ROOT / "sprint1-jdk21-build.log").read_text(encoding="utf-8", errors="replace")
     (evidence / "java21-build-summary.txt").write_text(log[log.rfind("[INFO] Reactor Summary"):], encoding="utf-8")
+    health = {}
+    for service, port in (("monitoring", 18083), ("alert", 18084), ("gateway", 18080)):
+        with urllib.request.urlopen(f"http://127.0.0.1:{port}/actuator/health") as response:
+            health[service] = {"url": f"http://127.0.0.1:{port}/actuator/health", "response": json.load(response)}
+    (evidence / "docker-health.json").write_text(json.dumps({"observedAt": datetime.now(timezone.utc).isoformat(), "services": health}, indent=2), encoding="utf-8")
+    for filename in ("alert-java21-final.log", "cucumber-java21-final.log"):
+        log = (ROOT / filename).read_text(encoding="utf-8", errors="replace")
+        (evidence / filename.replace(".log", "-summary.txt")).write_text(log[log.rfind("[INFO] Results:"):], encoding="utf-8")
+    commits = subprocess.check_output(["git", "log", "--format=%h | %aI | %s", "db07b299a4b808fa49b9ed3bd7b134d61f47a523..HEAD"], cwd=ROOT).decode()
+    (evidence / "local-development-commits.txt").write_text(commits, encoding="utf-8")
+    legacy = ROOT / "target/surefire-reports/TEST-com.acme.coldtrace.platform.iam.interfaces.rest.SessionContextControllerTest.xml"
+    tree = ET.parse(legacy).getroot()
+    (evidence / "legacy-iam-test-results.json").write_text(json.dumps({"runtime": "host JDK 26", "suite": tree.attrib["name"], **{k: int(tree.attrib[k]) for k in ("tests", "errors", "failures", "skipped")}}, indent=2), encoding="utf-8")
 
 def prepare_repository_exports():
     infra = ROOT / "sprint1/coldtrace-infrastructure"
