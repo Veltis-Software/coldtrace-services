@@ -47,3 +47,5 @@ bruno/
 *.sqlite-shm
 *.sqlite-wal
 **/__pycache__/
+# Original handoff renderings remain in the supplied ZIP and local handoff copy.
+docs/architecture/diagrams/rendered/
