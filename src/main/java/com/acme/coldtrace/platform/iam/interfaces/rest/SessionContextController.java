@@ -11,18 +11,22 @@ import org.springframework.web.server.ResponseStatusException;
 /** Resolves legacy email-only JWTs through the owning IAM context during Strangler migration. */
 @RestController
 public class SessionContextController {
-    private final UserRepository users;
+  private final UserRepository users;
 
-    public SessionContextController(UserRepository users) { this.users = users; }
+  public SessionContextController(UserRepository users) {
+    this.users = users;
+  }
 
-    @Operation(summary = "Resolve the authenticated organization during service migration")
-    @GetMapping("/api/v1/session/context")
-    public SessionContext context(Authentication authentication) {
-        if (authentication == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
-        var user = users.findByEmail(authentication.getName())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
-        return new SessionContext(user.getId(), user.getOrganizationId());
-    }
+  @Operation(summary = "Resolve the authenticated organization during service migration")
+  @GetMapping("/api/v1/session/context")
+  public SessionContext context(Authentication authentication) {
+    if (authentication == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+    var user =
+        users
+            .findByEmail(authentication.getName())
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED));
+    return new SessionContext(user.getId(), user.getOrganizationId());
+  }
 
-    public record SessionContext(Long userId, Long organizationId) {}
+  public record SessionContext(Long userId, Long organizationId) {}
 }

@@ -1,39 +1,51 @@
-# Alert Service — TP1 increment
+# ColdTrace Alert Service
 
-Consumes threshold.breached and source.gap through a Pub/Sub emulator push
-subscription. A transaction stores the processed event marker, incident,
-durable in-app notification and incident.opened outbox event. Repeated eventId
-does not create a second incident. Gap CLOSED resolves open NO_DATA incidents
-for the same organization and asset.
+Consumes `threshold.breached` and `source.gap` integration events. Incident,
+notification, processed-event marker and outbox entry commit atomically.
+Duplicate event delivery produces one incident. Gap recovery resolves only the
+matching organization's asset; an older close cannot resolve a newer gap.
 
-GET /api/v1/alerts and /api/v1/alerts/{id} validate the legacy JWT by asking
-the owning IAM context; queries always filter by organization. The legacy
-organization-scoped incident routes remain in the brownfield application.
+## API and notifications
 
-Local-only push receiver must explicitly be enabled:
-`--coldtrace.pubsub.local-push-enabled=true`. It is disabled by default.
-Cloud OIDC push authentication, external notifications, acknowledgement,
-assignment, SSE, and incident.opened publishing are not implemented here.
-The notification deep link is evidence of durable availability, not of a
-completed frontend route or email delivery.
+`GET /api/v1/alerts` and `GET /api/v1/alerts/{id}` require a bearer token; IAM
+resolves the organization and queries are isolated by it. The detail contains
+durable `IN_APP` notifications with status `AVAILABLE` and `/alerts/{id}` links.
+This increment does not send email/SMS or implement acknowledgement/assignment,
+undo or SSE. `incident.opened` is persisted in the service outbox; its relay is
+not yet implemented.
 
-Build with JDK 21. Install coldtrace-shared in the local Maven repository
-before building this repository independently, or use the parent workspace
-reactor. Runtime variables: DB_URL, DB_USER, DB_PASSWORD, IDENTITY_URL, PORT.
+## Configuration
 
-The new threshold type THRESHOLD_BREACHED is explicit for this increment;
-the original backend accepts free-text incident types and WARNING/CRITICAL
-severity. Detailed alert-service.yaml from the handoff describes a later
-usability increment and is not claimed as fulfilled by these query endpoints.
+| Variable | Purpose / default |
+|---|---|
+| PORT | HTTP port; 8084 |
+| DB_URL, DB_USER, DB_PASSWORD | MySQL connection to `ct_alert` |
+| IDENTITY_URL | IAM URL; http://127.0.0.1:8090 |
+| COLDTRACE_PUBSUB_LOCAL_PUSH_ENABLED | Explicit emulator receiver opt-in; false |
 
-## Independent repository build
+When enabled locally, `POST /internal/pubsub/events` accepts Pub/Sub push
+envelopes. It is disabled by default and has no cloud OIDC validation; enable
+it only with the local emulator. Schema changes use Flyway.
 
-Use Java 21 and Maven. Install the sibling `coldtrace-shared` revision
-`08ab5ee5321e3d7e5e4ec0b3c454a5f5da9bfcc3` first: `mvn -f ../coldtrace-shared/pom.xml install`.
-Then run `mvn verify` in this repository.
+OpenAPI: `/v3/api-docs`; Swagger: `/swagger-ui.html`; health:
+`/actuator/health`. Tests cover duplicate delivery, rollback on notification
+failure, gap closure isolation, invalid envelopes and delayed close events.
 
-Build its standalone image with
-`docker build --build-context shared=../coldtrace-shared -t coldtrace-alert-service:tp1 .`.
-The workflow checks out the same shared revision and publishes test artifacts.
-Remote execution requires publishing the prepared repositories first.
-The source and architecture audit are in `Veltis-Software/coldtrace-services`.
+## Build and test
+
+Requires Java 21 and Maven. Install the shared library from tag
+`v0.1.0-sprint1` (`08ab5ee5321e3d7e5e4ec0b3c454a5f5da9bfcc3`) first:
+
+```sh
+mvn -B -f ../coldtrace-shared/pom.xml install
+mvn -B verify
+```
+
+Build the standalone image with the sibling library as a named build context:
+
+```sh
+docker build --build-context shared=../coldtrace-shared -t coldtrace-alert-service:dev .
+```
+
+The CI workflow installs the pinned shared source, runs tests, builds the image
+and uploads test reports. Local orchestration is in `coldtrace-infrastructure`.
