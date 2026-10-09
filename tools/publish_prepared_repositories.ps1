@@ -2,6 +2,10 @@ $ErrorActionPreference = 'Stop'
 $taskSource = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 $taskExports = [IO.Path]::GetFullPath((Join-Path $taskSource '..\coldtrace-sprint1-repositories'))
 $taskNames = @('coldtrace-shared', 'coldtrace-monitoring-service', 'coldtrace-alert-service', 'coldtrace-api-gateway', 'coldtrace-edge-gateway', 'coldtrace-infrastructure')
+$taskLogin = & gh api user --jq '.login'
+if ($LASTEXITCODE -ne 0 -or $taskLogin -ne 'David-std2') {
+    throw 'Publication requires the explicitly selected David-std2 account. Authenticate or switch gh first.'
+}
 
 function Invoke-TaskGit([string]$taskPath, [string[]]$taskArguments) {
     & git -C $taskPath @taskArguments

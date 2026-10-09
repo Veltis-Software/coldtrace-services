@@ -156,9 +156,10 @@ jobs:
                         ignore=shutil.ignore_patterns("target", "__pycache__", ".git", ".env", "*.log", "*.sqlite*"))
     (destination / "README.md").write_text("""# ColdTrace TP1 prepared repository exports
 
-Six local repository directories are prepared for Veltis-Software. Remote
-publication is pending: the authenticated David-std account has read-only
-access to coldtrace-services and cannot create repositories in the organization.
+Six local repository directories are prepared for Veltis-Software. Publication
+must use David-std2, the account explicitly selected by the user. GitHub CLI
+authentication with that account is required; the Codex connector rejected
+content writes because its integration lacks the necessary permission.
 
 Install coldtrace-shared before Maven consumer builds. Standalone Docker builds
 use the sibling shared directory as a named BuildKit context.
