@@ -43,3 +43,17 @@ Official references:
 - https://cloud.google.com/sql/pricing
 
 No cloud project, billing resource, deployment or paid service was created.
+
+## Framework support review
+
+Java 21 is compatible with Spring Boot 3.3.13, but compatibility is not ongoing
+maintenance. Spring announced the end of open-source support for 3.3.x on
+2025-06-19. The extracted services retain the handoff stack for this verified
+checkpoint; a coordinated Boot/Cloud upgrade must precede a production release.
+Do not describe this version as a currently maintained production baseline.
+
+References:
+- https://docs.spring.io/spring-boot/3.3/system-requirements.html
+- https://spring.io/blog/2025/06/19/spring-boot-3-3-13-available-now/
+- https://microservices.io/patterns/refactoring/strangler-application.html
+- https://microservices.io/patterns/data/transactional-outbox.html
