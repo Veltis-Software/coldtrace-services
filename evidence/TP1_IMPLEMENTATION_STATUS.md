@@ -10,7 +10,7 @@ integral 5.4. El documento Word original no fue modificado durante este cierre.
 | Sección | Material verificable |
 |---|---|
 | 5.1 | Pruebas Java 21, escenarios Cucumber ejecutados, seis pruebas Python, ArchUnit; biblioteca compartida sin entidades de negocio; refactor parcial de SensorReading; Strangler, outbox, consumidor idempotente y store-and-forward. |
-| 5.2 | Rama `codex/tp1-architecture-implementation`, commits reales, Maven por servicio, Java 21/Boot 3.3.13 para extracciones, Java 26/Boot 4 para el base, Docker sin root, esquemas y usuarios separados, workflows preparados. La ejecución remota de CI debe corroborarse en GitHub antes de presentarla como aprobada. |
+| 5.2 | GitFlow: `main`, `develop`, ramas `feature/<story>-<description>`, `release/<version>`, `hotfix/<version>`; Conventional Commits y SemVer. Maven por servicio, Java 21/Boot 3.3.13 para extracciones, Java 26/Boot 4 para el base, Docker sin root, esquemas y usuarios separados. CI independiente y del sistema base aprobada; consultar `github-ci-results.json`. |
 | 5.3.1.1 Sprint Backlog | US47 recuperación/idempotencia, US46 brechas, US04 estado actual, US16 consulta consolidada de backend, US06 notificación interna durable. Son capacidades implementadas parcialmente; no se realizó interfaz de usuario. El equipo debe confirmar asignaciones, horas y alcance de cada US en Trello. |
 | 5.3.1.2 Development | Historial local real, fuentes y cambios a IAM; no atribuir implementación a Alessandro o Renso sin sus commits. |
 | 5.3.1.3 Testing | `java21-test-results.json`, reportes de Maven, feature `telemetry.feature`, `python312-docker-tests.txt`, prueba de rollback/idempotencia y evento de cierre desordenado de Alert. |
@@ -58,12 +58,13 @@ Consultar `docs/architecture/SPRINT1_REVIEW.md` para las correcciones justificad
 al pack y `sprint1/coldtrace-infrastructure/CLOUD_PREPARATION.md` para nombres
 propuestos, cuotas gratuitas y límites. No se creó ningún recurso facturable.
 
-Los seis directorios preparados para repositorios independientes están en
-`C:/Users/david/IdeaProjects/coldtrace-sprint1-repositories`. Los seis componentes
-ya están publicados en Veltis-Software desde David-std2, en la rama
-`codex/tp1-import`, con PR #1 de cada repositorio. El repositorio consolidado
-también tiene PR #1, rama `codex/tp1-architecture-implementation`. Los PRs están
-en borrador y no se fusionaron. El tag `v0.1.0-sprint1` de coldtrace-shared
-conserva la revisión exacta fijada por los consumidores. Para ejecutar antes
-de fusionar, clonar expresamente las ramas indicadas. Consultar
-`repository-publication.json` y las ejecuciones de GitHub para el estado de CI.
+Los seis repositorios están publicados en Veltis-Software desde David-std2.
+Sus PR #2 se integraron tras aprobar CI. `main` conserva el incremento aprobado
+y `develop` es la rama activa del siguiente ciclo; es la rama predeterminada
+de los seis repositorios nuevos. Las ramas temporales de implementación fueron
+eliminadas. El repositorio consolidado también integró PR #2; su historial de
+ramas del curso anterior se conserva. El tag `v0.1.0-sprint1` de coldtrace-shared
+conserva la revisión exacta fijada por los consumidores. Consultar
+`repository-publication.json` y `github-ci-results.json` para las referencias
+de publicación y validación. Los checkouts locales están en
+`C:/Users/david/IdeaProjects/coldtrace-sprint1-repositories`.
