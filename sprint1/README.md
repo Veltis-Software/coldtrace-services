@@ -10,6 +10,21 @@ consumer with durable in-app notifications.
 Remaining: Cloud OIDC push authentication, external notifications, complete BC extraction,
 cloud deployment, sustained QA02 load and QA03 user study.
 
+## Repository ownership
+
+The six component directories are Git submodules, pinned to reviewed commits in
+their independent repositories. They are not copies maintained in the backend.
+Create feature branches and pull requests in the owning repository; update the
+submodule pointer here after its tests pass. `sprint1` names the reproducible
+migration checkpoint, not a production bounded context. Never run
+`git submodule update --remote` in CI: builds must use committed revisions.
+
+```powershell
+git clone --recurse-submodules https://github.com/Veltis-Software/coldtrace-backend.git
+# For an existing checkout:
+git submodule update --init --recursive
+```
+
 ## Build and verify
 
 Use JDK 21 and the repository Maven wrapper:
