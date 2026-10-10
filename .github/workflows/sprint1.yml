@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -35,4 +37,6 @@ jobs:
         module: [coldtrace-monitoring-service, coldtrace-alert-service, coldtrace-api-gateway]
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
       - run: docker build -f sprint1/docker/Dockerfile --build-arg MODULE=${{ matrix.module }} -t ${{ matrix.module }}:ci .

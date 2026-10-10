@@ -17,7 +17,7 @@ integral 5.4. El documento Word original no fue modificado durante este cierre.
 | 5.3.1.4 Execution | `local-smoke.json`, colecciÃ³n Postman y ejecuciÃ³n `postman-newman.txt`, `edge-recovery.json`, consultas reales de MySQL y recuperaciÃ³n del broker. Video pendiente. |
 | 5.3.1.5 Documentation | `openapi-monitoring.json`, `openapi-alert.json`; Swagger local en puertos 18083 y 18084. Los contratos objetivo del pack de Claude incluyen operaciones aÃºn no implementadas y no deben reemplazar estos OpenAPI ejecutables. |
 | 5.3.1.6 Deployment | Servicios Docker + MySQL 8 + emulador Pub/Sub realmente ejecutados; `docker-health.json` y configuraciÃ³n Compose. Captura de Google Cloud pendiente. |
-| 5.3.1.7 Collaboration | Commits y PR cuando se publique. No hay evidencia validada de contribuciones de otros integrantes en este incremento. |
+| 5.3.1.7 Collaboration | Commits y PR publicados con CI aprobada. No hay evidencia validada de contribuciones de otros integrantes en este incremento. |
 | 5.3.1.8 Kanban | Tablero indicado por el usuario: https://trello.com/b/6a963a0f21f9470e710e1f76 . Falta acceso/captura; se omite el token privado de invitaciÃ³n. |
 
 ## Resultados observados
@@ -68,3 +68,32 @@ conserva la revisiÃ³n exacta fijada por los consumidores. Consultar
 `repository-publication.json` y `github-ci-results.json` para las referencias
 de publicaciÃ³n y validaciÃ³n. Los checkouts locales estÃ¡n en
 `C:/Users/david/IdeaProjects/coldtrace-sprint1-repositories`.
+
+## Revisión de conformidad y propiedad
+
+El repositorio base se llama `coldtrace-backend`, conforme a ADR-0002.
+Los seis componentes de `sprint1/` son referencias Git fijadas, no fuentes
+duplicadas. Cada cambio pertenece al repositorio del componente; el backend
+actualiza su referencia después de revisar y validar ese cambio.
+
+El incremento demuestra patrones arquitectónicos estándar con pruebas, pero
+no cumple todavía toda la arquitectura objetivo de los capítulos anteriores.
+El número de líneas no acredita ni invalida una historia: deben verificarse
+sus criterios de aceptación. Las historias citadas arriba siguen siendo
+parciales y el equipo debe aprobar su alcance en el Sprint Backlog. No hay
+un denominador validado para afirmar que se alcanzó el porcentaje de
+refactorización exigido por la entrega.
+
+5.1 y 5.2 tienen material real para redactarse con sus límites. Las ocho
+subsecciones de 5.3.1 pueden redactarse como estado del incremento, pero no
+marcarse todas completas: faltan backlog validado, asignaciones y horas,
+capturas de despliegue, video, colaboración verificable y evidencia Kanban.
+El enunciado reserva el despliegue integral cloud para TF1; esto no elimina
+la evidencia propia de despliegue exigida al Sprint 1. Docker local aporta
+evidencia de ejecución, pero no acredita un despliegue en Google Cloud.
+
+Las políticas de tolerancia/severidad, réplicas reales de activos, publicación
+de eventos de Alert y autenticación cloud siguen pendientes. Deben aparecer
+como arquitectura objetivo y trabajo posterior, no como implementaciones
+terminadas. No deben cambiarse los requisitos del ADD para encubrir estas
+brechas.
