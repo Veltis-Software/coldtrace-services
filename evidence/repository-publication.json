@@ -1,0 +1,36 @@
+{
+  "account": "David-std2",
+  "organization": "Veltis-Software",
+  "state": "draft PRs published; not merged",
+  "sharedRevision": "08ab5ee5321e3d7e5e4ec0b3c454a5f5da9bfcc3",
+  "pullRequests": [
+    {
+      "repository": "coldtrace-shared",
+      "url": "https://github.com/Veltis-Software/coldtrace-shared/pull/1"
+    },
+    {
+      "repository": "coldtrace-monitoring-service",
+      "url": "https://github.com/Veltis-Software/coldtrace-monitoring-service/pull/1"
+    },
+    {
+      "repository": "coldtrace-alert-service",
+      "url": "https://github.com/Veltis-Software/coldtrace-alert-service/pull/1"
+    },
+    {
+      "repository": "coldtrace-api-gateway",
+      "url": "https://github.com/Veltis-Software/coldtrace-api-gateway/pull/1"
+    },
+    {
+      "repository": "coldtrace-edge-gateway",
+      "url": "https://github.com/Veltis-Software/coldtrace-edge-gateway/pull/1"
+    },
+    {
+      "repository": "coldtrace-infrastructure",
+      "url": "https://github.com/Veltis-Software/coldtrace-infrastructure/pull/1"
+    },
+    {
+      "repository": "coldtrace-services",
+      "url": "https://github.com/Veltis-Software/coldtrace-services/pull/1"
+    }
+  ]
+}
