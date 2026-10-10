@@ -1,4 +1,4 @@
-# Evidence for Claude — TP1 only
+# Sprint 1 validation evidence
 
 This folder records observed results, not a completed academic report.
 
@@ -25,7 +25,7 @@ full QA01 cloud SLA. Future simulator runs emit measured recoverySeconds.
 The subsequent instrumented Docker deployment run is in `edge-recovery.json`:
 50 sensors, 300 seconds with no sends, 1,500 peak pending readings, 3.234 seconds
 to empty the buffer, 1,650 generated/accepted, zero duplicate or pending readings.
-See `HANDOFF_PARA_CLAUDE.md` for section-by-section scope and explicit limitations.
+See `TP1_IMPLEMENTATION_STATUS.md` for section-by-section scope and explicit limitations.
 
 Broker interruption accepted ingestion (202), retained its outbox event, and
 published it after emulator recovery. Its eventId yielded one incident.
